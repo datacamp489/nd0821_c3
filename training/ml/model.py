@@ -1,7 +1,12 @@
+import joblib
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import fbeta_score, precision_score, recall_score
-
+from sklearn.linear_model import LogisticRegressionCV
 
 # Optional: implement hyperparameter tuning.
+RANDOM_STATE = 42
+
+
 def train_model(X_train, y_train):
     """
     Trains a machine learning model and returns it.
@@ -18,7 +23,18 @@ def train_model(X_train, y_train):
         Trained machine learning model.
     """
 
-    pass
+    classifiers = [LogisticRegressionCV(cv=5, random_state=RANDOM_STATE, max_iter=1e5),
+                   RandomForestClassifier(random_state=RANDOM_STATE, n_estimators=20, max_depth=10)]
+    best_model_score = 0.
+    best_model = None
+    for clf in classifiers:
+        model = clf.fit(X_train, y_train)
+        preds = inference(model, X_train)
+        _, _, f_beta= compute_model_metrics(y_train, preds)
+        if f_beta > best_model_score:
+            best_model_score = f_beta
+            best_model = model
+    return best_model
 
 
 def compute_model_metrics(y, preds):
@@ -57,4 +73,26 @@ def inference(model, X):
     preds : np.array
         Predictions from the model.
     """
-    pass
+    return model.predict(X)
+
+
+def save_model(model, path):
+    """Save model to disk
+
+    Args:
+        model (???): Trained machine learning model
+        path (str): Filepath for saving model
+    """
+    joblib.dump(model, path)
+
+
+def load_model(path):
+    """Load model from disk
+
+    Args:
+        path (str): Filepath for saved model
+
+    Returns:
+        ???: loaded model
+    """
+    return joblib.load(path)

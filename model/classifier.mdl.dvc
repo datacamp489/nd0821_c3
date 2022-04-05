@@ -1,0 +1,4 @@
+outs:
+- md5: 53b3fe652bbf13d22b6dc23d97c4b566
+  size: 774444
+  path: classifier.mdl
