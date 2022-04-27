@@ -94,6 +94,27 @@ def main():
                 file.write(f"{slice_feature},{val},{precision:.4f},{recall:.4f},{fbeta:.4f}\n")
     logger.info("Finished.")
 
+def slice_performance(feature, y, preds):
+    """Generator for performance values for each slice of an categorical feature
+
+    Args:
+        feature (np.array): feature with catgorical values.
+        y (_type_): Known labels, binarized.
+        preds (_type_): Predicted labels, binarized.
+
+    Yields:
+        Tuple(str, float, float, float): Tuple of feature value, precision, recall and fbeta score
+    """
+    # concatenate column-wise
+    data = np.stack((feature, y, preds), axis=1)
+    unique_values = np.unique(feature)
+    for val in unique_values:
+        data_slice = data[data[:,0] == val]
+        y = data_slice[:,1].astype(int)
+        preds = data_slice[:,2].astype(int)
+        yield val, *compute_model_metrics(y=y, preds=preds)
+
+
 
 if __name__ == "__main__":
     main()
