@@ -131,4 +131,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# DVC
 /slice_out.txt
