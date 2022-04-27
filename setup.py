@@ -22,6 +22,6 @@ setuptools.setup(
         "gunicorn"
     ],
     entry_points={"console_scripts": [
-        "start_training=training.train_model:main"]},
+        "start_training=training.train_model:main", "run_rest=rest.app:main"]},
 
 )
