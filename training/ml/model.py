@@ -1,4 +1,3 @@
-import joblib
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 from sklearn.linear_model import LogisticRegressionCV
@@ -76,23 +75,5 @@ def inference(model, X):
     return model.predict(X)
 
 
-def save_model(model, path):
-    """Save model to disk
-
-    Args:
-        model (???): Trained machine learning model
-        path (str): Filepath for saving model
-    """
-    joblib.dump(model, path)
 
 
-def load_model(path):
-    """Load model from disk
-
-    Args:
-        path (str): Filepath for saved model
-
-    Returns:
-        ???: loaded model
-    """
-    return joblib.load(path)

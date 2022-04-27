@@ -13,10 +13,12 @@ def train_data(path=DATA_PATH):
     train, _ = train_test_split(df, test_size=0.20)
     return train.sample(frac=0.2, random_state=42)
 
+
 @pytest.fixture
 def processed_train_data(train_data):
     X, y, _, _ = process_data(train_data, categorical_features=CAT_FEATURES, label="salary")
     return (X, y)
+
 
 @pytest.fixture
 def model(processed_train_data):

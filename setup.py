@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="census_ml",
+    name="census",
     author="datacamp489",
     version="0.1.0",
     description="ML module for training census data",
