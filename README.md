@@ -13,14 +13,6 @@ If you have installed the package with ``pip install -e .`` you can use the the 
 ## Rest API
 If you have installed the package with ``pip install -e .`` you can use the the predefined entry point ``run_rest`` otherwise switch to rest directory and run ``uvicorn app:app``.
 You can find the documentation here: http://localhost:8000/docs
-The Rest API is also deployed on heroku.
+The Rest API is also deployed on heroku: https://census-ml.herokuapp.com/
 
-----
-* Create a free Heroku account (for the next steps you can either use the web GUI or download the Heroku CLI).
-* Create a new app and have it deployed from your GitHub repository.
-   * Enable automatic deployments that only deploy if your continuous integration passes.
-   * Hint: think about how paths will differ in your local environment vs. on Heroku.
-   * Hint: development in Python is fast! But how fast you can iterate slows down if you rely on your CI/CD to fail before fixing an issue. I like to run flake8 locally before I commit changes.
-* Set up DVC on Heroku using the instructions contained in the starter directory.
-* Set up access to AWS on Heroku, if using the CLI: `heroku config:set AWS_ACCESS_KEY_ID=xxx AWS_SECRET_ACCESS_KEY=yyy`
-* Write a script that uses the requests module to do one POST on your live API.
+Notice: Since heroku-github sync is currently not available due to security issues, the heroku git solution with two remotes was used (see https://status.heroku.com/incidents/2413 and https://stackoverflow.com/questions/71892543/heroku-and-github-items-could-not-be-retrieved-internal-server-error)

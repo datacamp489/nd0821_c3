@@ -5,6 +5,7 @@ import requests
 url = "https://census-ml.herokuapp.com/predict"
 data = {'age': 37, 'workclass': 'Private', 'fnlgt': 321943, 'education': 'Prof-school', 'education_num': 15, 'marital_status': 'Married-civ-spouse', 'occupation': 'Prof-specialty',
         'relationship': 'Husband', 'race': 'White', 'sex': 'Male', 'capital_gain': 0, 'capital_loss': 0, 'hours_per_week': 40, 'native_country': 'United-States'}
+print(f"Sending sample request to heroku application {url}")
 response = requests.post(url, json=data)
 print(f"Status: {response.status_code}")
 print(f"Result: {response.json()}")
