@@ -19,13 +19,15 @@ if "DYNO" in os.environ and os.path.isdir(".dvc"):
 app = FastAPI()
 model_items = {}
 
+def load_items():
+    model_items['model'] = joblib.load(MODEL_PATH)
+    model_items['encoder'] = joblib.load(ENCODER_PATH)
+    model_items['lb'] = joblib.load(BINARIZER_PATH)
 
 @app.on_event("startup")
 def startup_event():
     """Load model, encoder and lb only on startup"""
-    model_items['model'] = joblib.load(MODEL_PATH)
-    model_items['encoder'] = joblib.load(ENCODER_PATH)
-    model_items['lb'] = joblib.load(BINARIZER_PATH)
+    load_items()
 
 
 @app.get("/")
@@ -41,8 +43,10 @@ def greet():
 @app.post("/predict", response_model=str, summary="Predicts the income class based on census data")
 def predict(data: CensusData):
     """Predicts income class >50K or <=50K for given census data  """
+    if not model_items:
+        load_items()
     data = pd.DataFrame(data.dict(), index=[0])
-    column_rename = {"marital_status": "marital-status", "native_country": "native-country"}
+    column_rename = {col: col.replace("_", "-") for col in data.columns}
     data = data.rename(columns=column_rename)
     X, _, _, _ = process_data(data, categorical_features=CAT_FEATURES, training=False,
                               encoder=model_items['encoder'], lb=model_items['lb'])
