@@ -7,18 +7,15 @@
     * In order to install the package in development mode (e.g. needed for testing) run <br>``pip install -e .``
 
 
-## API Creation
+## Training process
+If you have installed the package with ``pip install -e .`` you can use the the predefined entry point ``start_training`` otherwise run ``python training/train_model.py``
 
-* Create a RESTful API using FastAPI this must implement:
-   * GET on the root giving a welcome message.
-   * POST that does model inference.
-   * Type hinting must be used.
-   * Use a Pydantic model to ingest the body from POST. This model should contain an example.
-    * Hint: the data has names with hyphens and Python does not allow those as variable names. Do not modify the column names in the csv and instead use the functionality of FastAPI/Pydantic/etc to deal with this.
-* Write 3 unit tests to test the API (one for the GET and two for POST, one that tests each prediction).
+## Rest API
+If you have installed the package with ``pip install -e .`` you can use the the predefined entry point ``run_rest`` otherwise switch to rest directory and run ``uvicorn app:app``.
+You can find the documentation here: http://localhost:8000/docs
+The Rest API is also deployed on heroku.
 
-## API Deployment
-
+----
 * Create a free Heroku account (for the next steps you can either use the web GUI or download the Heroku CLI).
 * Create a new app and have it deployed from your GitHub repository.
    * Enable automatic deployments that only deploy if your continuous integration passes.

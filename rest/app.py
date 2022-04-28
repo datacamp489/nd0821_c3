@@ -10,19 +10,15 @@ from training.ml.data import process_data
 from training.ml.model import inference
 from training.train_model import MODEL_PATH, ENCODER_PATH, BINARIZER_PATH, CAT_FEATURES
 
-if "DYNO" in os.environ and os.path.isdir(".dvc"):
-    os.system("dvc config core.no_scm true")
-    if os.system("dvc pull") != 0:
-        exit("dvc pull failed")
-    os.system("rm -r .dvc .apt/usr/lib/dvc")
-
 app = FastAPI()
 model_items = {}
+
 
 def load_items():
     model_items['model'] = joblib.load(MODEL_PATH)
     model_items['encoder'] = joblib.load(ENCODER_PATH)
     model_items['lb'] = joblib.load(BINARIZER_PATH)
+
 
 @app.on_event("startup")
 def startup_event():

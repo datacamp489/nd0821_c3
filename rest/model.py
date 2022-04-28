@@ -2,6 +2,7 @@ from pydantic import BaseModel, Field
 
 
 class CensusData(BaseModel):
+    """ Datamodel for census income prediction """
     age: int
     workclass: str
     fnlgt: int
