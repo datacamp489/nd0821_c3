@@ -14,14 +14,23 @@ def test_greeting():
     assert response.json() == "Hello everyone!"
 
 
-def test_prediction_success(train_data):
+def test_prediction_success_lower_50k(train_data):
     """Successful request with random sample from training data"""
     train_data = train_data.drop('salary', axis=1)
     column_rename = {col: col.replace("-", "_") for col in train_data.columns}
-    sample = train_data.rename(columns=column_rename).sample(1).iloc[0].to_dict()
+    sample = train_data.rename(columns=column_rename).iloc[0].to_dict()
     response = client.post("/predict", json=sample)
     assert response.status_code == 200
-    assert response.json() in ("<=50K", ">50K")
+    assert response.json() == "<=50K"
+
+def test_prediction_success_higher_50k(train_data):
+    """Successful request with random sample from training data"""
+    train_data = train_data.drop('salary', axis=1)
+    column_rename = {col: col.replace("-", "_") for col in train_data.columns}
+    sample = train_data.rename(columns=column_rename).iloc[45].to_dict()
+    response = client.post("/predict", json=sample)
+    assert response.status_code == 200
+    assert response.json() == ">50K"
 
 def test_prediction_fail():
     """ Failed request with empty request"""

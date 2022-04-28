@@ -10,7 +10,7 @@ from training.train_model import CAT_FEATURES, DATA_PATH
 @pytest.fixture
 def train_data(path=DATA_PATH):
     df = pd.read_csv(DATA_PATH)
-    train, _ = train_test_split(df, test_size=0.20)
+    train, _ = train_test_split(df, test_size=0.20, random_state=42)
     return train.sample(frac=0.2, random_state=42)
 
 
